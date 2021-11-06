@@ -24,8 +24,6 @@
       with_items:
               - /etc/passwd
               - /etc/group
-              - /etc/shadow
-              - /etc/gshadow
     - name: restart httpd and mariadb service
       service:
           name: "{{ item }}"
