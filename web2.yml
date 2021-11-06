@@ -1,0 +1,37 @@
+- name: this is my third playbook
+  hosts: all
+  tasks: 
+    - name: this is for installing packages
+      yum: 
+          name: ['httpd', 'mariadb', 'mariadb-server', 'php', 'php-mysql']
+          state: installed
+    - name: install httpd and mariadb service
+      service: 
+          name: "{{ item }}"
+          state: started
+          enabled: yes
+      with_items: 
+            - httpd
+            - mariadb
+    - name: copy file 
+      copy:
+        dest: /var/www/html/index.html
+        content: "<h1>This is Test Server</h1>"
+    - name: copy all files in /var/www/html/
+      copy:
+        src: "{{ item }}"
+        dest: /var/www/html/
+      with_items:
+              - /etc/passwd
+              - /etc/group
+              - /etc/shadow
+              - /etc/gshadow
+    - name: restart httpd and mariadb service
+      service:
+          name: "{{ item }}"
+          state: restarted
+          enabled: yes
+      with_items:
+            - httpd
+            - mariadb
+ 
